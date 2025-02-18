@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  catalogdb:
+    container_name: catalogdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=CatalogDb
+    restart: always
+    ports:
+        - "5432:5432"
+    image: postgres
+    volumes: 
+      - postgres_catalog:/var/lib/postgresql/data/
