@@ -1,15 +1,14 @@
-﻿namespace Catalog.API.Products.GetProductById
+﻿namespace Catalog.API.Products.GetProductById;
+
+// public record GetProductByIdRequest(Guid Id);
+
+public record GetProductByIdResponse(Product Product);
+
+public class GetProductByIdEndpoint : ICarterModule
 {
-
-    // public record GetProductByIdRequest(Guid Id);
-
-    public record GetProductByIdResponse(Product Product);
-
-    public class GetProductByIdEndpoint : ICarterModule
+    public async void AddRoutes(IEndpointRouteBuilder app)
     {
-        public async void AddRoutes(IEndpointRouteBuilder app)
-        {
-            app.MapGet("/products/{id}", async (Guid id, ISender sender) =>
+        app.MapGet("/products/{id}", async (Guid id, ISender sender) =>
             {
                 var result = await sender.Send(new GetProductByIdQuery(id));
 
@@ -18,10 +17,9 @@
                 return Results.Ok(response);
             })
             .WithName("GetProductById")
-            .Produces<GetProductByIdResponse>(StatusCodes.Status200OK)
+            .Produces<GetProductByIdResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Get Product By Id")
             .WithDescription("Get a product by its id.");
-        }
     }
 }
